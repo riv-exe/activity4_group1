@@ -5,10 +5,10 @@ plugins {
     id 'kotlin-parcelize'
 }
 android {
-    namespace 'com.example.activity4'
+    namespace 'com.example.activity4_group1'
     compileSdk 33
     defaultConfig {
-        applicationId "com.example.activity4"
+        applicationId "com.example.activity4_group1"
         minSdk 24
         targetSdk 33
         versionCode 1
