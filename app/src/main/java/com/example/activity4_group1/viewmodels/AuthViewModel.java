@@ -80,40 +80,64 @@ public class AuthViewModel extends ViewModel {
         }
     }
 
-    public Intent getGoogleSignUpIntent() {
-        return googleSignInClient.getSignInIntent();
+    public void getGoogleSignUpIntent(
+            @NonNull java.util.function.Consumer<Intent> callback) {
+
+        if (googleSignInClient == null) {
+            return;
+        }
+
+        googleSignInClient.signOut()
+                .addOnCompleteListener(task -> {
+                    callback.accept(googleSignInClient.getSignInIntent());
+                });
     }
 
     public void signUpWithGoogle(@NonNull String idToken) {
+        android.util.Log.d("GOOGLE_AUTH", "Firebase authentication started");
+
+        if (idToken.isEmpty()) {
+            android.util.Log.e("GOOGLE_AUTH", "ID Token is empty");
+            return;
+        }
+
         authState.setValue(AuthState.Loading.INSTANCE);
 
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        AuthCredential credential =
+                GoogleAuthProvider.getCredential(idToken, null);
+
         auth.signInWithCredential(credential)
                 .addOnSuccessListener(authResult -> {
                     FirebaseUser user = authResult.getUser();
+
                     if (user == null) {
                         failGoogleSignUp(null);
                         return;
                     }
 
-                    // Check if user already exists in database
-                    database.child("users").child(user.getUid()).get()
+                    DatabaseReference userRef =
+                            database.child("users").child(user.getUid());
+
+                    userRef.get()
                             .addOnSuccessListener(snapshot -> {
                                 if (snapshot.exists()) {
-                                    // User already has an account - show error and sign out
-                                    auth.signOut();
-                                    authState.setValue(new AuthState.Error(
-                                            "Account already exists. Please sign in with  email instead."));
-                                } else {
-                                    // New user - save to database
                                     String name = resolveGoogleName(user);
+
+                                    authState.setValue(
+                                            new AuthState.Success(name)
+                                    );
+                                } else {
+                                    String name = resolveGoogleName(user);
+
                                     saveUserToDatabase(user, name, () ->
-                                            authState.setValue(new AuthState.Success(name)));
+                                            authState.setValue(
+                                                    new AuthState.Success(name)
+                                            )
+                                    );
                                 }
                             })
                             .addOnFailureListener(this::failGoogleSignUp);
-                })
-                .addOnFailureListener(this::failGoogleSignUp);
+                });
     }
 
     private void failGoogleSignUp(@Nullable Exception e) {

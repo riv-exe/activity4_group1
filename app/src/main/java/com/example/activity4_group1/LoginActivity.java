@@ -32,18 +32,27 @@ public class LoginActivity extends AppCompatActivity {
             registerForActivityResult(
                     new ActivityResultContracts.StartActivityForResult(),
                     result -> {
-                        if (result.getResultCode() == RESULT_OK) {
-                            Intent data = result.getData();
-                            Task<GoogleSignInAccount> task =
-                                    GoogleSignIn.getSignedInAccountFromIntent(data);
-                            try {
-                                GoogleSignInAccount account = task.getResult(ApiException.class);
-                                if (account != null && account.getIdToken() != null) {
-                                    authViewModel.signUpWithGoogle(account.getIdToken()); // Sign Up only
-                                }
-                            } catch (ApiException e) {
-                                showError("Google sign up failed: " + e.getMessage());
+                        android.util.Log.d("GOOGLE_AUTH",
+                                "Result code: " + result.getResultCode());
+
+                        Intent data = result.getData();
+
+                        Task<GoogleSignInAccount> task =
+                                GoogleSignIn.getSignedInAccountFromIntent(data);
+
+                        try {
+                            GoogleSignInAccount account =
+                                    task.getResult(ApiException.class);
+
+                            if (account.getIdToken() != null) {
+                                authViewModel.signUpWithGoogle(
+                                        account.getIdToken());
                             }
+
+                        } catch (ApiException e) {
+                            android.util.Log.e("GOOGLE_AUTH",
+                                    "Google Sign-In error code: "
+                                            + e.getStatusCode(), e);
                         }
                     });
 
@@ -66,8 +75,9 @@ public class LoginActivity extends AppCompatActivity {
 
         // Google Sign Up Button
         binding.btnGoogleSignUp.setOnClickListener(v -> {
-            Intent signUpIntent = authViewModel.getGoogleSignUpIntent();
-            googleSignUpLauncher.launch(signUpIntent);
+            authViewModel.getGoogleSignUpIntent(intent ->
+                    googleSignUpLauncher.launch(intent)
+            );
         });
 
         // Navigate to Sign Up screen (for email sign up)
