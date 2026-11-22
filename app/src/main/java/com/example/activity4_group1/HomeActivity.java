@@ -30,6 +30,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getSupportActionBar().hide();
+
 
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         auth = FirebaseAuth.getInstance();

@@ -26,6 +26,8 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getSupportActionBar().hide();
+
 
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
