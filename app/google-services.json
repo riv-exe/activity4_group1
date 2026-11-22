@@ -1,42 +1,34 @@
 {
   "project_info": {
-    "project_number": "425082718379",
-    "firebase_url": "https://activity4-group1-10e44-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "activity4-group1-10e44",
-    "storage_bucket": "activity4-group1-10e44.firebasestorage.app"
+    "project_number": "159494187768",
+    "firebase_url": "https://activity4-group1-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "activity4-group1",
+    "storage_bucket": "activity4-group1.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:425082718379:android:4ef957eaf4651faa2a4fee",
+        "mobilesdk_app_id": "1:159494187768:android:5b9f837898a5763257a90d",
         "android_client_info": {
           "package_name": "com.example.activity4_group1"
         }
       },
       "oauth_client": [
         {
-          "client_id": "425082718379-nqk2lbjlnqk7lkvvhd5ppqkbe0afnvt6.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.activity4_group1",
-            "certificate_hash": "4f9f2a0e34b097ddbe7a049904abf9e21baa28e1"
-          }
-        },
-        {
-          "client_id": "425082718379-jc45qe7hshv3koakpdp0h3i4gffgjg47.apps.googleusercontent.com",
+          "client_id": "159494187768-t0hhvidhg9q1f5d45pnamp8a2q4ai90q.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA-YJ4dfPVFxKWxpU6VsSejIAJkeZcS-lg"
+          "current_key": "AIzaSyAuBNNk3t8UVRPXMYVhK7AaLBKfP9uAZnU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "425082718379-jc45qe7hshv3koakpdp0h3i4gffgjg47.apps.googleusercontent.com",
+              "client_id": "159494187768-t0hhvidhg9q1f5d45pnamp8a2q4ai90q.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
