@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="textPrimary">#C5C5C5</color>
+    <color name="info_card_bg">#222327</color>
+    <color name="info_card_text">#D1D5DB</color>
+
+    <color name="accent">#9CB0D8</color>
+    <color name="statusBarBackground">#121212</color>
+</resources>

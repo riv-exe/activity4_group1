@@ -123,17 +123,20 @@ public class AuthViewModel extends ViewModel {
                                 if (snapshot.exists()) {
                                     String name = resolveGoogleName(user);
 
-                                    authState.setValue(
-                                            new AuthState.Success(name)
-                                    );
-                                } else {
-                                    String name = resolveGoogleName(user);
-
-                                    saveUserToDatabase(user, name, () ->
-                                            authState.setValue(
-                                                    new AuthState.Success(name)
+                                    userRef.child("lastLogin")
+                                            .setValue(System.currentTimeMillis())
+                                            .addOnSuccessListener(unused ->
+                                                    authState.setValue(
+                                                            new AuthState.Success(name)
+                                                    )
                                             )
-                                    );
+                                            .addOnFailureListener(e ->
+                                                    authState.setValue(
+                                                            new AuthState.Error(
+                                                                    errorMessage(e, "Google sign in failed")
+                                                            )
+                                                    )
+                                            );
                                 }
                             })
                             .addOnFailureListener(this::failGoogleSignUp);

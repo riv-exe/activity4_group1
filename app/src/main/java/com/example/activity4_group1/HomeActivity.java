@@ -1,8 +1,13 @@
 package com.example.activity4_group1;
 
 import android.content.Intent;
+import android.graphics.ImageDecoder;
+import android.graphics.drawable.AnimatedImageDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -15,9 +20,12 @@ import com.example.activity4_group1.viewmodels.AuthViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import androidx.core.view.WindowCompat;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -40,7 +48,8 @@ public class HomeActivity extends AppCompatActivity {
         if (userName == null) {
             userName = "User";
         }
-        binding.tvWelcome.setText("Hi, " + userName + "!");
+//        binding.username.setText(userName);
+        binding.tvWelcome.setText(userName);
 
         loadUserData();
         setupClickListeners();
