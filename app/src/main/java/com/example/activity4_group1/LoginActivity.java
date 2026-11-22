@@ -61,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getSupportActionBar().hide();
 
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         authViewModel.setupGoogleSignUp(this); // Setup for Google Sign Up only
