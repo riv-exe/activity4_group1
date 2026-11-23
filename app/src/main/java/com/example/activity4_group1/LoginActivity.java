@@ -71,6 +71,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setupClickListeners() {
+        // Back to GetStartedActivity
+        binding.btnBack.setOnClickListener(v -> {
+            Intent intent = new Intent(this, GetStartedActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+        });
+
         // Email/Password Sign In
         binding.btnSignIn.setOnClickListener(v -> performSignIn());
 
