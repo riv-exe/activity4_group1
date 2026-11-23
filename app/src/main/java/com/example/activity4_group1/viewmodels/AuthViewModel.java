@@ -93,6 +93,7 @@ public class AuthViewModel extends ViewModel {
                 });
     }
 
+
     public void signUpWithGoogle(@NonNull String idToken) {
         android.util.Log.d("GOOGLE_AUTH", "Firebase authentication started");
 
@@ -111,7 +112,7 @@ public class AuthViewModel extends ViewModel {
                     FirebaseUser user = authResult.getUser();
 
                     if (user == null) {
-                        failGoogleSignUp(null);
+                        authState.setValue(new AuthState.Error("Sign in failed"));
                         return;
                     }
 
@@ -120,28 +121,46 @@ public class AuthViewModel extends ViewModel {
 
                     userRef.get()
                             .addOnSuccessListener(snapshot -> {
-                                if (snapshot.exists()) {
-                                    String name = resolveGoogleName(user);
+                                String name = resolveGoogleName(user);
+                                long now = System.currentTimeMillis();
 
+                                if (snapshot.exists()) {
                                     userRef.child("lastLogin")
-                                            .setValue(System.currentTimeMillis())
+                                            .setValue(now)
                                             .addOnSuccessListener(unused ->
                                                     authState.setValue(
                                                             new AuthState.Success(name)
                                                     )
                                             )
                                             .addOnFailureListener(e ->
+                                                    failGoogleSignUp(e)
+                                            );
+
+                                } else {
+                                    UserData userData = new UserData(
+                                            user.getUid(),
+                                            name,
+                                            user.getEmail() != null ? user.getEmail() : "",
+                                            now,
+                                            now
+                                    );
+
+                                    userRef.setValue(userData)
+                                            .addOnSuccessListener(unused ->
                                                     authState.setValue(
-                                                            new AuthState.Error(
-                                                                    errorMessage(e, "Google sign in failed")
-                                                            )
+                                                            new AuthState.Success(name)
                                                     )
+                                            )
+                                            .addOnFailureListener(e ->
+                                                    failGoogleSignUp(e)
                                             );
                                 }
                             })
                             .addOnFailureListener(this::failGoogleSignUp);
-                });
+                })
+                .addOnFailureListener(this::failGoogleSignUp);
     }
+
 
     private void failGoogleSignUp(@Nullable Exception e) {
         auth.signOut();
